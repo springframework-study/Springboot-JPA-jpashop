@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
+/**
+ * 종 주문 2개 * userA * JPA1 BOOK * JPA2 BOOK * userB * SPRING1 BOOK * SPRING2 BOOK
+ */
 @Component
 @RequiredArgsConstructor
 public class InitDb {
@@ -18,6 +21,7 @@ public class InitDb {
     @PostConstruct
     public void init() {
         initService.dbInit1();
+        initService.dbInit2();
     }
 
     @Component
@@ -26,6 +30,7 @@ public class InitDb {
     static class InitService {
 
         private final EntityManager em;
+
         public void dbInit1() {
             Member member = createMember("userA", "서울", "1", "1111");
             em.persist(member);
@@ -42,22 +47,6 @@ public class InitDb {
             Delivery delivery = createDelivery(member);
             Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
             em.persist(order);
-
-        }
-
-        private Book createBook(String name, int price, int stockQuantity) {
-            Book book1 = new Book();
-            book1.setName(name);
-            book1.setPrice(price);
-            book1.setStockQuantity(stockQuantity);
-            return book1;
-        }
-
-        private Member createMember(String name, String city, String street, String zipcode) {
-            Member member = new Member();
-            member.setName(name);
-            member.setAddress(new Address(city, street, zipcode));
-            return member;
         }
 
         public void dbInit2() {
@@ -76,7 +65,21 @@ public class InitDb {
             Delivery delivery = createDelivery(member);
             Order order = Order.createOrder(member, delivery, orderItem1, orderItem2);
             em.persist(order);
+        }
 
+        private Member createMember(String name, String city, String street, String zipcode) {
+            Member member = new Member();
+            member.setName(name);
+            member.setAddress(new Address(city, street, zipcode));
+            return member;
+        }
+
+        private Book createBook(String name, int price, int stockQuantity) {
+            Book book1 = new Book();
+            book1.setName(name);
+            book1.setPrice(price);
+            book1.setStockQuantity(stockQuantity);
+            return book1;
         }
 
         private Delivery createDelivery(Member member) {
