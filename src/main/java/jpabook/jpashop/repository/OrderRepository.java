@@ -1,6 +1,8 @@
 package jpabook.jpashop.repository;
 
 import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,11 +12,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import jpabook.jpashop.domain.Order;
 import lombok.RequiredArgsConstructor;
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable.BinaryOp.Or;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import java.util.List;
 import org.springframework.util.StringUtils;
 
 @Repository
@@ -118,4 +116,6 @@ public class OrderRepository {
                 " join fetch o.delivery d", Order.class
         ).getResultList();
     }
+
+
 }
